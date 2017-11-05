@@ -6,7 +6,10 @@ Pod::Spec.new do |s|
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
   s.author             = { "Junmo Kim" => "me@junmo.kim" }
   s.social_media_url   = "https://www.linkedin.com/in/junmo-kim/"
-  
+
+  s.dependency 'RxSwift', '~> 4.0'
+  s.dependency 'Bolts', '~> 1.8'
+
   s.ios.deployment_target = "8.0"
 
   s.source       = { :git => "https://github.com/junmo-kim/RxToBolts.git",
