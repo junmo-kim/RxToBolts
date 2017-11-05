@@ -17,7 +17,7 @@ pod 'RxToBolts'
 ```swift
 @objc class Service
     func getStatus() -> Single<Status> {
-        Single<Status>.create { observer -> Disposable in
+        return Single<Status>.create { observer -> Disposable in
             [...]
         }
     }
@@ -34,19 +34,19 @@ extension Service {
 
 4. Use it on Objective-C
 ```objective-c
-    - (void)didTapLoadStatus {
-        [[Service objc_getStatus] continueWithBlock:^id(BFTask *task) {
-            if (task.isCancelled) {
-                // get status was cancelled.
-            } else if (task.error) {
-                // get status failed.
-            } else {
-                Status *status = task.result;
-                NSLog(@"Status: %@", status.text);
-            }
-            return nil;
-        }];
-    }
+- (void)didTapLoadStatus {
+    [[Service objc_getStatus] continueWithBlock:^id(BFTask *task) {
+        if (task.isCancelled) {
+            // get status was cancelled.
+        } else if (task.error) {
+            // get status failed.
+        } else {
+            Status *status = task.result;
+            NSLog(@"Status: %@", status.text);
+        }
+        return nil;
+    }];
+}
 ```
 
 :tada:

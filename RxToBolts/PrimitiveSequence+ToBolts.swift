@@ -14,7 +14,7 @@ extension PrimitiveSequence where Trait == SingleTrait, Element: AnyObject {
     /**
      Emit object to result on success. The result of `BFTask` is typed nullable `Element` but not intended emit `nil`.
      
-     - parameter cancellationToken: Token can dispose Single Observable
+     - parameter cancellationToken: Token can dispose `Single` Observable
      
      - returns: Element typed Bolts task
      */
@@ -33,7 +33,7 @@ extension PrimitiveSequence where Trait == CompletableTrait, Element == Never {
     /**
      Emit nil to result on success.
      
-     - parameter cancellationToken: Token can dispose Single Observable
+     - parameter cancellationToken: Token can dispose `Completable` Observable
      
      - returns: `AnyObject` typed Bolts task
      */
@@ -58,7 +58,7 @@ extension PrimitiveSequence where Trait == MaybeTrait, Element: AnyObject {
      
      cf) https://github.com/ReactiveX/RxSwift/blob/4.0.0/Documentation/Traits.md#maybe
      
-     - parameter cancellationToken: Token can dispose Single Observable
+     - parameter cancellationToken: Token can dispose `Maybe` Observable
      
      - returns: Element typed Bolts task
      */
