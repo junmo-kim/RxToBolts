@@ -9,7 +9,7 @@ cache:
 
 install:
   - bundle install --path vendor/bundle
-  - bundle exec pod install
+  - bundle exec pod install || bundle exec pod install --repo-update
 
 before_script:
   - export TZ=Asia/Seoul
