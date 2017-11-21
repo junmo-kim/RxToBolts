@@ -18,7 +18,7 @@ extension PrimitiveSequence where Trait == SingleTrait, Element: AnyObject {
      
      - returns: Element typed Bolts task
      */
-    func toBoltsTask(with cancellationToken: BFCancellationToken? = nil) -> BFTask<Element> {
+    public func toBoltsTask(with cancellationToken: BFCancellationToken? = nil) -> BFTask<Element> {
         guard cancellationToken?.isCancellationRequested != true else { return .cancelled() }
         
         let source = BFTaskCompletionSource<Element>()
@@ -37,7 +37,7 @@ extension PrimitiveSequence where Trait == CompletableTrait, Element == Never {
      
      - returns: `AnyObject` typed Bolts task
      */
-    func toBoltsTask(with cancellationToken: BFCancellationToken? = nil) -> BFTask<AnyObject> {
+    public func toBoltsTask(with cancellationToken: BFCancellationToken? = nil) -> BFTask<AnyObject> {
         guard cancellationToken?.isCancellationRequested != true else { return .cancelled() }
         
         let source = BFTaskCompletionSource<AnyObject>()
@@ -62,7 +62,7 @@ extension PrimitiveSequence where Trait == MaybeTrait, Element: AnyObject {
      
      - returns: Element typed Bolts task
      */
-    func toBoltsTask(with cancellationToken: BFCancellationToken? = nil) -> BFTask<Element> {
+    public func toBoltsTask(with cancellationToken: BFCancellationToken? = nil) -> BFTask<Element> {
         guard cancellationToken?.isCancellationRequested != true else { return .cancelled()  }
         
         let source = BFTaskCompletionSource<Element>()
