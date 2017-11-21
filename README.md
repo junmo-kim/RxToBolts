@@ -15,12 +15,13 @@ pod 'RxToBolts'
 
 2. Write your Rx code in Swift
 ```swift
-@objc class Service
+@objc class Service {
     func getStatus() -> Single<Status> {
         return Single<Status>.create { observer -> Disposable in
             [...]
         }
     }
+}
 ```
 
 3. Add wrapper method without any efforts
