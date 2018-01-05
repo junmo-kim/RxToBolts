@@ -10,7 +10,7 @@ target 'RxToBolts' do
 
   # Pods for RxToBolts
   pod 'RxSwift', '~> 4.0'
-  pod 'Bolts', '~> 1.8'
+  pod 'Bolts', '~> 1.9.0'
 
   target 'RxToBoltsTests' do
     inherit! :search_paths

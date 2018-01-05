@@ -31,13 +31,14 @@ class PrimitiveSequenceToBoltsSpec: QuickSpec {
                     
                     expect(count).to(equal(0))
                     
-                    single.toBoltsTask().continue({ task -> Any? in
+                    single.toBoltsTask().continueWith { task -> Any? in
                         error = task.error
                         result = task.result
                         
                         count += 1
                         return nil
-                    })
+                        
+                    }
                     
                     expect(error).to(beNil())
                     expect(result).to(equal(NSNumber(value: 1)))
@@ -49,13 +50,13 @@ class PrimitiveSequenceToBoltsSpec: QuickSpec {
                     
                     expect(count).to(equal(0))
                     
-                    single.toBoltsTask().continue({ task -> Any? in
+                    single.toBoltsTask().continueWith { task -> Any? in
                         error = task.error
                         result = task.result
                         
                         count += 1
                         return nil
-                    })
+                    }
                     
                     expect((error as NSError?)?.domain).to(equal("TestError"))
                     expect(result).to(beNil())
@@ -67,13 +68,13 @@ class PrimitiveSequenceToBoltsSpec: QuickSpec {
                     
                     expect(count).to(equal(0))
                     
-                    single.toBoltsTask().continue(successBlock: { task -> Any? in
+                    single.toBoltsTask().continueOnSuccessWith { task -> Any? in
                         error = task.error
                         result = task.result
                         
                         count += 1
                         return nil
-                    })
+                    }
                     
                     expect(error).to(beNil())
                     expect(result).to(beNil())
@@ -85,11 +86,11 @@ class PrimitiveSequenceToBoltsSpec: QuickSpec {
                 it("expected to have success result") {
                     let single = Single<NSNumber>.just(1).delay(0.3, scheduler: MainScheduler.asyncInstance)
                     
-                    single.toBoltsTask().continue({ task -> Any? in
+                    single.toBoltsTask().continueWith { task -> Any? in
                         error = task.error
                         result = task.result
                         return nil
-                    })
+                    }
                     
                     expect(error).toEventually(beNil(), timeout: 0.6, pollInterval: 0.1)
                     expect(result).to(beNil())
@@ -104,11 +105,11 @@ class PrimitiveSequenceToBoltsSpec: QuickSpec {
                         return Disposables.create()
                     })
                     
-                    single.toBoltsTask().continue({ task -> Any? in
+                    single.toBoltsTask().continueWith { task -> Any? in
                         error = task.error
                         result = task.result
                         return nil
-                    })
+                    }
                     
                     expect(error).to(beNil())
                     expect((error as NSError?)?.domain).toEventually(equal("TestError"), timeout: 0.6, pollInterval: 0.1)
@@ -138,11 +139,11 @@ class PrimitiveSequenceToBoltsSpec: QuickSpec {
                     expect(error).notTo(beNil())
                     expect(result).notTo(beNil())
                     
-                    completable.toBoltsTask().continue({ task -> Any? in
+                    completable.toBoltsTask().continueWith { task -> Any? in
                         error = task.error
                         result = task.result
                         return nil
-                    })
+                    }
                     
                     expect(error).to(beNil())
                     expect(result).to(beNil())
@@ -152,11 +153,11 @@ class PrimitiveSequenceToBoltsSpec: QuickSpec {
                     expect(error).notTo(beNil())
                     expect(result).notTo(beNil())
                     
-                    completable.toBoltsTask().continue(successBlock: { task -> Any? in
+                    completable.toBoltsTask().continueOnSuccessWith { task -> Any? in
                         error = task.error
                         result = task.result
                         return nil
-                    })
+                    }
                     
                     expect(error).to(beNil())
                     expect(result).to(beNil())
@@ -178,13 +179,13 @@ class PrimitiveSequenceToBoltsSpec: QuickSpec {
                 it("expected to have error result") {
                     expect(count).to(equal(0))
                     
-                    completable.toBoltsTask().continue({ task -> Any? in
+                    completable.toBoltsTask().continueWith { task -> Any? in
                         error = task.error
                         result = task.result
                         
                         count += 1
                         return nil
-                    })
+                    }
                     
                     expect((error as NSError?)?.code).to(equal(123))
                     expect(result).to(beNil())
@@ -194,13 +195,13 @@ class PrimitiveSequenceToBoltsSpec: QuickSpec {
                 it("expected to not call success block when error result") {
                     expect(count).to(equal(0))
                     
-                    completable.toBoltsTask().continue(successBlock: { task -> Any? in
+                    completable.toBoltsTask().continueOnSuccessWith { task -> Any? in
                         error = task.error
                         result = task.result
                         
                         count += 1
                         return nil
-                    })
+                    }
                     
                     expect(error).notTo(beNil())
                     expect(result as! NSNull?).to(equal(NSNull()))
@@ -227,12 +228,12 @@ class PrimitiveSequenceToBoltsSpec: QuickSpec {
                     expect(result).notTo(beNil())
                     expect(count).to(equal(0))
                     
-                    completable.toBoltsTask().continue({ task -> Any? in
+                    completable.toBoltsTask().continueWith { task -> Any? in
                         error = task.error
                         result = task.result
                         count += 1
                         return nil
-                    })
+                    }
                     
                     expect(error).toEventually(beNil(), timeout: 0.6, pollInterval: 0.1)
                     expect(result).toEventually(beNil(), timeout: 0.6, pollInterval: 0.1)
@@ -244,12 +245,12 @@ class PrimitiveSequenceToBoltsSpec: QuickSpec {
                     expect(result).notTo(beNil())
                     expect(count).to(equal(0))
                     
-                    completable.toBoltsTask().continue(successBlock: { task -> Any? in
+                    completable.toBoltsTask().continueOnSuccessWith { task -> Any? in
                         error = task.error
                         result = task.result
                         count += 1
                         return nil
-                    })
+                    }
                     
                     expect(error).toEventually(beNil(), timeout: 0.6, pollInterval: 0.1)
                     expect(result).toEventually(beNil(), timeout: 0.6, pollInterval: 0.1)
@@ -274,13 +275,13 @@ class PrimitiveSequenceToBoltsSpec: QuickSpec {
                 it("expected to have error result") {
                     expect(count).to(equal(0))
                     
-                    completable.toBoltsTask().continue({ task -> Any? in
+                    completable.toBoltsTask().continueWith { task -> Any? in
                         error = task.error
                         result = task.result
                         
                         count += 1
                         return nil
-                    })
+                    }
                     
                     expect((error as NSError?)?.code).toEventually(equal(123), timeout: 0.6, pollInterval: 0.1)
                     expect(result).toEventually(beNil(), timeout: 0.6, pollInterval: 0.1)
@@ -290,13 +291,13 @@ class PrimitiveSequenceToBoltsSpec: QuickSpec {
                 it("expected to not call success block when error result") {
                     expect(count).to(equal(0))
                     
-                    completable.toBoltsTask().continue(successBlock: { task -> Any? in
+                    completable.toBoltsTask().continueOnSuccessWith { task -> Any? in
                         error = task.error
                         result = task.result
                         
                         count += 1
                         return nil
-                    })
+                    }
                     
                     expect((error as NSError?)?.code).toEventually(equal(-1), timeout: 0.6, pollInterval: 0.1)
                     expect(result as! NSNull?).toEventually(equal(NSNull()), timeout: 0.6, pollInterval: 0.1)
@@ -324,13 +325,13 @@ class PrimitiveSequenceToBoltsSpec: QuickSpec {
                         return Disposables.create()
                     })
                     
-                    maybe.toBoltsTask().continue({ task -> Any? in
+                    maybe.toBoltsTask().continueWith { task -> Any? in
                         error = task.error
                         result = task.result
                         
                         count += 1
                         return nil
-                    })
+                    }
                     
                     expect(error).to(beNil())
                     expect(result).to(equal(NSNumber(value: 3)))
@@ -343,13 +344,13 @@ class PrimitiveSequenceToBoltsSpec: QuickSpec {
                         return Disposables.create()
                     })
                     
-                    maybe.toBoltsTask().continue({ task -> Any? in
+                    maybe.toBoltsTask().continueWith { task -> Any? in
                         error = task.error
                         result = task.result
                         
                         count += 1
                         return nil
-                    })
+                    }
                     
                     expect(error).to(beNil())
                     expect(result).to(beNil())
@@ -362,13 +363,13 @@ class PrimitiveSequenceToBoltsSpec: QuickSpec {
                         return Disposables.create()
                     })
                     
-                    maybe.toBoltsTask().continue({ task -> Any? in
+                    maybe.toBoltsTask().continueWith { task -> Any? in
                         error = task.error
                         result = task.result
                         
                         count += 1
                         return nil
-                    })
+                    }
                     
                     expect((error as NSError?)?.code).to(equal(456))
                     expect(result).to(beNil())
@@ -381,13 +382,13 @@ class PrimitiveSequenceToBoltsSpec: QuickSpec {
                         return Disposables.create()
                     })
                     
-                    maybe.toBoltsTask().continue(successBlock: { task -> Any? in
+                    maybe.toBoltsTask().continueOnSuccessWith { task -> Any? in
                         error = task.error
                         result = task.result
                         
                         count += 1
                         return nil
-                    })
+                    }
                     
                     expect(error).to(beNil())
                     expect(result).to(beNil())
@@ -415,13 +416,13 @@ class PrimitiveSequenceToBoltsSpec: QuickSpec {
                         return Disposables.create()
                     })
                     
-                    maybe.toBoltsTask().continue({ task -> Any? in
+                    maybe.toBoltsTask().continueWith { task -> Any? in
                         error = task.error
                         result = task.result
                         
                         count += 1
                         return nil
-                    })
+                    }
                     
                     expect(error).toEventually(beNil(), timeout: 0.6, pollInterval: 0.1)
                     expect(result).toEventually(equal(NSNumber(value: 4)), timeout: 0.6, pollInterval: 0.1)
@@ -436,13 +437,13 @@ class PrimitiveSequenceToBoltsSpec: QuickSpec {
                         return Disposables.create()
                     })
                     
-                    maybe.toBoltsTask().continue({ task -> Any? in
+                    maybe.toBoltsTask().continueWith { task -> Any? in
                         error = task.error
                         result = task.result
                         
                         count += 1
                         return nil
-                    })
+                    }
                     
                     expect(error).toEventually(beNil(), timeout: 0.6, pollInterval: 0.1)
                     expect(result).toEventually(beNil(), timeout: 0.6, pollInterval: 0.1)
@@ -457,13 +458,13 @@ class PrimitiveSequenceToBoltsSpec: QuickSpec {
                         return Disposables.create()
                     })
                     
-                    maybe.toBoltsTask().continue({ task -> Any? in
+                    maybe.toBoltsTask().continueWith { task -> Any? in
                         error = task.error
                         result = task.result
                         
                         count += 1
                         return nil
-                    })
+                    }
                     
                     expect((error as NSError?)?.code).toEventually(equal(456), timeout: 0.6, pollInterval: 0.1)
                     expect(result).toEventually(beNil(), timeout: 0.6, pollInterval: 0.1)
@@ -478,13 +479,13 @@ class PrimitiveSequenceToBoltsSpec: QuickSpec {
                         return Disposables.create()
                     })
                     
-                    maybe.toBoltsTask().continue(successBlock: { task -> Any? in
+                    maybe.toBoltsTask().continueOnSuccessWith { task -> Any? in
                         error = task.error
                         result = task.result
                         
                         count += 1
                         return nil
-                    })
+                    }
                     
                     expect(error).toNotEventually(beNil(), timeout: 0.6, pollInterval: 0.1)
                     expect(result).toEventually(equal(NSNumber(value: -1)), timeout: 0.6, pollInterval: 0.1)

@@ -22,7 +22,7 @@ extension PrimitiveSequence where Trait == SingleTrait, Element: AnyObject {
         guard cancellationToken?.isCancellationRequested != true else { return .cancelled() }
         
         let source = BFTaskCompletionSource<Element>()
-        let disposable = subscribe(onSuccess: source.setResult, onError: source.setError)
+        let disposable = subscribe(onSuccess: source.set, onError: source.set)
         cancellationToken?.registerCancellationObserver { disposable.dispose() }
         
         return source.task
@@ -43,8 +43,8 @@ extension PrimitiveSequence where Trait == CompletableTrait, Element == Never {
         let source = BFTaskCompletionSource<AnyObject>()
         
         let disposable = subscribe(onCompleted: {
-            source.setResult(nil)
-        }, onError: source.setError)
+            source.set(result: nil)
+        }, onError: source.set)
         cancellationToken?.registerCancellationObserver { disposable.dispose() }
         
         return source.task
@@ -66,9 +66,7 @@ extension PrimitiveSequence where Trait == MaybeTrait, Element: AnyObject {
         guard cancellationToken?.isCancellationRequested != true else { return .cancelled()  }
         
         let source = BFTaskCompletionSource<Element>()
-        let disposable = subscribe(onSuccess: source.setResult, onError: source.setError) {
-            source.setResult(nil)
-        }
+        let disposable = subscribe(onSuccess: source.set, onError: source.set, onCompleted: { source.set(result: nil) })
         cancellationToken?.registerCancellationObserver { disposable.dispose() }
         
         return source.task

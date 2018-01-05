@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.social_media_url   = "https://www.linkedin.com/in/junmo-kim/"
 
   s.dependency 'RxSwift', '~> 4.0'
-  s.dependency 'Bolts', '~> 1.8'
+  s.dependency 'Bolts', '~> 1.9.0'
 
   s.ios.deployment_target = "8.0"
 
